@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: node-service
+  labels:
+    app: guestbook
+    tier: service
+spec:
+  # modify replicas according to your case
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: service
+  template:
+    metadata:
+      labels:
+        tier: service
+    spec:
+      containers:
+      - name: node
+        image: node-sample
