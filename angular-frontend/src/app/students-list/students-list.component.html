@@ -1,7 +1,6 @@
 <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">Student ID</th>
         <th scope="col">Name</th>
         <th scope="col">Degree</th>
         <th scope="col">Major</th>
@@ -10,8 +9,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let student of studentList">
-        <td>{{ student.student_id }}</td>
+      <tr *ngFor="let student of studentList" class="clickable" [routerLink]="['/studentDetail/',student._id]">
         <td>{{ student.name }}</td>
         <td>{{ student.degree }}</td>
         <td>{{ student.major }}</td>

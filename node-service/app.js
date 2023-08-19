@@ -1,14 +1,19 @@
 import express from 'express'
 import cors from 'cors'
+import { ObjectId } from 'mongodb'
+import winston from 'winston'
+import db from './db/conn.mjs'
+
 const app = express()
 const port = 3000
-
-import db from './db/conn.mjs'
+const log = winston.createLogger({
+  transports: [new winston.transports.Console()],
+});
 
 app.use(cors())
 
 app.get('/students', async (req, res) => {
-  console.log('hit the endpoint')
+  log.info('hit the endpoint')
   let students = await db.collection('students')
   let results = await students.find({},{_id: 0}).toArray()
 
@@ -19,10 +24,10 @@ app.get('/students', async (req, res) => {
 })
 
 app.get('/students/:id', async (req, res) => {
-  console.log('hit the endpoint')
+  log.info('hit the endpoint')
   let students = await db.collection('students')
-  let results = await students.find({id: req.params.id},{_id: 0}).toArray()
-
+  let results = await students.find({_id: new ObjectId(req.params.id)}).toArray()
+  log.info('student found was: ' + JSON.stringify(results))
   res.json({
     time: new Date(),
     body: results
@@ -30,7 +35,7 @@ app.get('/students/:id', async (req, res) => {
 })
 
 app.get('/professors', async (req, res) => {
-  console.log('hit the professors endpoint')
+  log.info('hit the professors endpoint')
   let professors = await db.collection('professors')
   let results = await professors.find({},{_id: 0}).toArray()
 
@@ -41,7 +46,7 @@ app.get('/professors', async (req, res) => {
 })
 
 app.get('/professors/:id', async (req, res) => {
-  console.log('hit the professors endpoint')
+  log.info('hit the professors endpoint')
   let professors = await db.collection('professors')
   let results = await professors.find({id: req.params.id},{_id: 0}).toArray()
 
@@ -52,5 +57,5 @@ app.get('/professors/:id', async (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  log.info(`Example app listening on port ${port}`)
 })
