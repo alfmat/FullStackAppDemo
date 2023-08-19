@@ -38,4 +38,11 @@ export class StudentDetailsComponent {
   onBack() {
     this.router.navigate(['/students']);
   }
+
+  onSubmit() {
+    this.studentService.postStudent(this.student).subscribe((data: any) => {
+      console.log(data);
+    })
+    this.onBack();
+  }
 }

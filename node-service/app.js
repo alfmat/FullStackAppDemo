@@ -23,6 +23,28 @@ app.get('/students', async (req, res) => {
   })
 })
 
+// insert a student into the database
+app.use(express.json())
+app.post('/newStudent', async (req, res) => {
+  log.info('hit the endpoint')
+  let students = await db.collection('students')
+  log.info('body is: ' + JSON.stringify(req.body))
+  let results = {};
+  let student = req.body;
+  if (student._id == '' || student._id == null) {
+    delete student._id
+    results = await students.insertOne(student)
+  } else {
+    let student_id = new ObjectId(student._id)
+    delete student._id
+    results = await students.updateOne({_id: student_id}, {$set: req.body})
+  }
+  res.json({
+    time: new Date(),
+    body: results
+  })
+})
+
 app.get('/students/:id', async (req, res) => {
   log.info('hit the endpoint')
   let students = await db.collection('students')

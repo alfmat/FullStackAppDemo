@@ -16,4 +16,8 @@ export class StudentService {
   getStudent(id: string): Observable<Student> {
     return this.httpClient.get<Student>('http://localhost:3000/students/' + id, {responseType: 'json'}).pipe(map((data: any) => data.body))
   }
+
+  postStudent(student: Student): Observable<Student> {
+    return this.httpClient.post<Student>('http://localhost:3000/newStudent', student, {responseType: 'json'}).pipe(map((data: any) => data.body))
+  }
 }

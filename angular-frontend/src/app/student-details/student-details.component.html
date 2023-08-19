@@ -1,4 +1,5 @@
-<form #form="ngForm">
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+    <input name="_id" type="hidden" [(ngModel)]="student._id">
     <div class="form-group">
         <label for="formGroupExampleInput">Name</label>
         <input type="text" class="form-control" name="name" id="name" placeholder="John Doe" [(ngModel)]="student.name">
@@ -20,6 +21,7 @@
         <input type="text" class="form-control" name="courses" id="courses" placeholder="Courses" [(ngModel)]="student.courses">
     </div>
     <button class="btn btn-outline-secondary" (click)="onBack()"><i class="fa fa-chevron-left"></i>Back</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <!-- {{form.value | json}} -->
